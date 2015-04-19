@@ -19,6 +19,10 @@ public class Dictionary {
 	public static final String NO_SEARCH_RESULT = "Nie znaleziono szukanego tagu.";
 	public static final String NO_NEW_RESULT = "Brak notowanych wpisów.";
 
+	// ENUMY
+	public static final String MAIN_ROLE_CLIENT = "Klient";
+	public static final String MAIN_ROLE_TRANSLATOR = "T³umacz";
+
 	// STATYCZNE
 	final String MAIN_TITLE = "Anime-Chronicle";
 
@@ -68,6 +72,7 @@ public class Dictionary {
 	final String IMAGE_FILE_INFO = "Dozwolone rozszerzenie pliku to *.jpg. Dopuszczalne wymiary: 32x32 px. Maksymalny rozmiar pliku: 100kb";
 	final String SEARCH_TITLE = "Znalezione tagi";
 	final String ACTIVATE = "Aktywuj";
+	final String ACCOUNT_TYPE = "Typ konta";
 
 	final String MSG_LOG_TO_COMMENT = "Zaloguj by komentowaæ";
 	final String MSG_COMM_DEL = "Komentarz usuniêty";
@@ -300,6 +305,18 @@ public class Dictionary {
 
 	public String getACTIVATE() {
 		return ACTIVATE;
+	}
+
+	public String getMAIN_ROLE_CLIENT() {
+		return MAIN_ROLE_CLIENT;
+	}
+
+	public String getMAIN_ROLE_TRANSLATOR() {
+		return MAIN_ROLE_TRANSLATOR;
+	}
+
+	public String getACCOUNT_TYPE() {
+		return ACCOUNT_TYPE;
 	}
 
 }

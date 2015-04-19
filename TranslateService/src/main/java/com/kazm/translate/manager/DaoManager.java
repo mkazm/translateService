@@ -4,19 +4,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import com.kazm.translate.dao.DocumentDao;
+import com.kazm.translate.dao.OrderDao;
 import com.kazm.translate.dao.RoleDao;
 import com.kazm.translate.dao.UserDao;
-
 
 @Service("mana")
 @Repository
 public class DaoManager {
-	
+
 	@Autowired
 	private UserDao userDao;
-	
+
 	@Autowired
 	private RoleDao roleDao;
+
+	@Autowired
+	private DocumentDao documentDao;
+
+	@Autowired
+	private OrderDao orderDao;
 
 	public UserDao getUserDao() {
 		return userDao;
@@ -32,6 +39,22 @@ public class DaoManager {
 
 	public void setRoleDao(RoleDao roleDao) {
 		this.roleDao = roleDao;
-	}	
+	}
+
+	public DocumentDao getDocumentDao() {
+		return documentDao;
+	}
+
+	public void setDocumentDao(DocumentDao documentDao) {
+		this.documentDao = documentDao;
+	}
+
+	public OrderDao getOrderDao() {
+		return orderDao;
+	}
+
+	public void setOrderDao(OrderDao orderDao) {
+		this.orderDao = orderDao;
+	}
 
 }
