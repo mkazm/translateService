@@ -33,6 +33,7 @@
 					<li><a href="<c:url value="/user/"/>">${dic.WELCOME}
 							${pageContext.request.userPrincipal.name}</a></li>
 					<li><a href="<c:url value="/j_spring_security_logout" />">${dic.LOGOUT}</a></li>
+					<li><a href="<c:url value="/user/order"/>">${dic.ADD_ORDER}</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAnonymous()">
 					<li><a href="<c:url value="/login"/>">${dic.LOGIN}</a></li>

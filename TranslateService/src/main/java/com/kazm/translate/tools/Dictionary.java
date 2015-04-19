@@ -71,8 +71,14 @@ public class Dictionary {
 	final String SELECT_FILE = "Wybierz Plik";
 	final String IMAGE_FILE_INFO = "Dozwolone rozszerzenie pliku to *.jpg. Dopuszczalne wymiary: 32x32 px. Maksymalny rozmiar pliku: 100kb";
 	final String SEARCH_TITLE = "Znalezione tagi";
+	// /////////////////////TRANSLATE
 	final String ACTIVATE = "Aktywuj";
 	final String ACCOUNT_TYPE = "Typ konta";
+	final String ADD_ORDER = "Dodaj zg³oszenie";
+	final String DOCUMENT_LANGUAGE = "Jêzyk dokumentu";
+	final String TRANSLATION_LANGUAGE = "Jêzyk t³umaczenia";
+
+	// ///////////////////////////////
 
 	final String MSG_LOG_TO_COMMENT = "Zaloguj by komentowaæ";
 	final String MSG_COMM_DEL = "Komentarz usuniêty";
@@ -317,6 +323,18 @@ public class Dictionary {
 
 	public String getACCOUNT_TYPE() {
 		return ACCOUNT_TYPE;
+	}
+
+	public String getADD_ORDER() {
+		return ADD_ORDER;
+	}
+
+	public String getDOCUMENT_LANGUAGE() {
+		return DOCUMENT_LANGUAGE;
+	}
+
+	public String getTRANSLATION_LANGUAGE() {
+		return TRANSLATION_LANGUAGE;
 	}
 
 }
