@@ -77,6 +77,9 @@ public class Dictionary {
 	final String ADD_ORDER = "Dodaj zg³oszenie";
 	final String DOCUMENT_LANGUAGE = "Jêzyk dokumentu";
 	final String TRANSLATION_LANGUAGE = "Jêzyk t³umaczenia";
+	final String ORDER_LIST = "Zlecenia";
+	final String TRANSLATE = "T³umacz";
+	final String STATUS = "Status";
 
 	// ///////////////////////////////
 
@@ -335,6 +338,18 @@ public class Dictionary {
 
 	public String getTRANSLATION_LANGUAGE() {
 		return TRANSLATION_LANGUAGE;
+	}
+
+	public String getORDER_LIST() {
+		return ORDER_LIST;
+	}
+
+	public String getTRANSLATE() {
+		return TRANSLATE;
+	}
+
+	public String getSTATUS() {
+		return STATUS;
 	}
 
 }

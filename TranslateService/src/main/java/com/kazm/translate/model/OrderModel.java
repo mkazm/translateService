@@ -3,6 +3,7 @@ package com.kazm.translate.model;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -22,20 +23,20 @@ public class OrderModel extends BaseModel {
 	private DateTime startStamp;
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime endStamp;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "client_id")
 	private UserModel client;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "worker_id")
 	private UserModel worker;
 	@Enumerated(EnumType.STRING)
 	private LanguageEnum documentLanguage;
 	@Enumerated(EnumType.STRING)
 	private LanguageEnum translationLanguage;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "document_id")
 	private DocumentModel document;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "translation_id")
 	private DocumentModel translation;
 	private OrderStatusEnum status;

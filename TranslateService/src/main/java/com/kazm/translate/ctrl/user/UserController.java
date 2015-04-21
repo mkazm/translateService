@@ -72,6 +72,12 @@ public class UserController {
 		return "user/addOrder";
 	}
 
+	@RequestMapping(value = "/orderList")
+	public String orderList(Model model) {
+		getUserPageMana().setOrderListPage(model);
+		return "user/orderList";
+	}
+
 	@RequestMapping(value = "/orderAction", method = RequestMethod.POST)
 	public String orderAction(Model model, OrderModel order,
 			@RequestParam("file") MultipartFile file) {
@@ -114,6 +120,8 @@ public class UserController {
 			order.setClient(client);
 			order.setStatus(OrderStatusEnum.OPEN);
 			order.setDocument(document);
+
+			order = getMana().getOrderDao().save(order);
 
 			getUserPageMana().setUserPageModel(model, auth);
 		}
