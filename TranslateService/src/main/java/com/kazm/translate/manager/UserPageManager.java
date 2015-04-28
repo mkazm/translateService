@@ -46,4 +46,12 @@ public class UserPageManager {
 		model.addAttribute("orderList", orderList);
 		return model;
 	}
+
+	public Model setTranslatingListPage(Model model, Long translatorId) {
+		List<OrderModel> orderList = getMana().getOrderDao()
+				.getTranslatorOrder(translatorId);
+		model.addAttribute("orderList", orderList);
+		return model;
+	}
+
 }

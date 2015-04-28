@@ -10,4 +10,5 @@ public interface OrderDao extends GenericDao<OrderModel, Long> {
 	List<OrderModel> getClientOrder(Long id);
 
 	List<OrderModel> getTranslatorOrder(Long id);
+
 }

@@ -80,6 +80,8 @@ public class Dictionary {
 	final String ORDER_LIST = "Zlecenia";
 	final String TRANSLATE = "T³umacz";
 	final String STATUS = "Status";
+	final String CANCEL = "Rezugnuj";
+	final String TRANSLATING = "W T³umaczeniu";
 
 	// ///////////////////////////////
 
@@ -350,6 +352,14 @@ public class Dictionary {
 
 	public String getSTATUS() {
 		return STATUS;
+	}
+
+	public String getCANCEL() {
+		return CANCEL;
+	}
+
+	public String getTRANSLATING() {
+		return TRANSLATING;
 	}
 
 }

@@ -38,6 +38,7 @@
 					</sec:authorize>
 					<sec:authorize access="hasRole('ROLE_TRANSLATOR')">
 						<li><a href="<c:url value="/user/orderList"/>">${dic.ORDER_LIST}</a></li>
+						<li><a href="<c:url value="/user/translatingList"/>">${dic.TRANSLATING}</a></li>
 					</sec:authorize>
 				</sec:authorize>
 				<sec:authorize access="isAnonymous()">

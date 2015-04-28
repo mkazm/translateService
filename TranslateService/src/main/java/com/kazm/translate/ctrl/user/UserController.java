@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -76,6 +77,52 @@ public class UserController {
 	public String orderList(Model model) {
 		getUserPageMana().setOrderListPage(model);
 		return "user/orderList";
+	}
+
+	@RequestMapping(value = "/translatingList")
+	public String translatingList(Model model) {
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			String username = auth.getName();
+			UserModel user = mana.getUserDao().findByUsername(username);
+			getUserPageMana().setTranslatingListPage(model, user.getId());
+		}
+		return "user/translateList";
+	}
+
+	@RequestMapping(value = "/translateAction/{id}")
+	public String translateAction(Model model, @PathVariable Long id) {
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			String username = auth.getName();
+			UserModel user = mana.getUserDao().findByUsername(username);
+			OrderModel order = mana.getOrderDao().findById(id);
+			order.setWorker(user);
+			order.setStatus(OrderStatusEnum.IN_PROGRESS);
+			mana.getOrderDao().update(order);
+			getUserPageMana().setTranslatingListPage(model, user.getId());
+		}
+		return "user/translateList";
+	}
+
+	@RequestMapping(value = "/cancelTranslateAction/{id}")
+	public String cancelTranslateAction(Model model, @PathVariable Long id) {
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			String username = auth.getName();
+			UserModel user = mana.getUserDao().findByUsername(username);
+			OrderModel order = mana.getOrderDao().findById(id);
+			if (order.getWorker().getId().equals(user.getId())) {
+				order.setWorker(null);
+				order.setStatus(OrderStatusEnum.OPEN);
+				mana.getOrderDao().update(order);
+			}
+			getUserPageMana().setTranslatingListPage(model, user.getId());
+		}
+		return "user/translateList";
 	}
 
 	@RequestMapping(value = "/orderAction", method = RequestMethod.POST)
