@@ -84,6 +84,7 @@ public class Dictionary {
 	final String TRANSLATING = "W T³umaczeniu";
 	final String PRICE = "Cena";
 	final String DOCUMENT_TYPE = "Typ dokumentu";
+	final String BALANCE = "Saldo";
 
 	// ///////////////////////////////
 
@@ -91,6 +92,10 @@ public class Dictionary {
 	final String MSG_COMM_DEL = "Komentarz usuniêty";
 	final String MSG_MIN_INPUT = "Minimalna d³ugoœæ znaków";
 	final String MSG_EMAIN_NOT_CONFIRMED = "Logowanie wymaga aktywacji konta.";
+
+	public String getBALANCE() {
+		return BALANCE;
+	}
 
 	public String getPRICE() {
 		return PRICE;

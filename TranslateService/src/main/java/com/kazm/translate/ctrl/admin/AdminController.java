@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kazm.translate.manager.AdminManager;
 import com.kazm.translate.manager.DaoManager;
@@ -69,6 +70,21 @@ public class AdminController {
 		PriceModel price = getMana().getPriceDao().findById(id);
 		getMana().getPriceDao().delete(price);
 		return "redirect:/admin/price";
+	}
+
+	@RequestMapping(value = "/balance")
+	public String balance(Model model) {
+		model = getAdminMana().setUserEditPage(model);
+		return "admin/balance";
+	}
+
+	@RequestMapping(value = "/balanceAction")
+	public String balanceAction(Model model, @RequestParam Long id,
+			@RequestParam Double balance) {
+		UserModel user = getMana().getUserDao().findById(id);
+		user.setBalance(balance);
+		getMana().getUserDao().update(user);
+		return "redirect:/admin/balance";
 	}
 
 }

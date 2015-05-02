@@ -24,8 +24,8 @@
 									<th>#</th>
 									<th>${dic.USERNAME}</th>
 									<th>${dic.ACCOUNT_TYPE}</th>
-									<th>${dic.REASON}</th>
-									<th>${dic.ACTIVATE}</th>
+									<th>${dic.BALANCE}</th>
+									<th>${dic.EDIT}</th>
 								</tr>
 							</thead>
 							<c:set var="count" value="0" scope="page" />
@@ -35,10 +35,14 @@
 									<td>${count}</td>
 									<td>${u.username}</td>
 									<td>${u.mainRole}</td>
-									<td>${u.activated}</td>
-									<td><a
-										href="<c:url value="/admin/activate/${u.id}"/>"
-										class="btn btn-default">${dic.ACTIVATE}</a></td>
+									<form method="post" data-toggle="validator" id="add-order-form"
+										enctype="multipart/form-data"
+										action="<c:url value="/admin/balanceAction"/>">
+									<td><input type="number" class="form-control" name="balance"
+										id="balance" title="balance"
+										placeholder="${dic.BALANCE}" value="${u.balance}" required></td>
+									<td><button type="submit" name="id" value="${u.id}" class="btn btn-success">${dic.ADD}</button></td>
+									</form>
 								</tr>
 							</c:forEach>
 

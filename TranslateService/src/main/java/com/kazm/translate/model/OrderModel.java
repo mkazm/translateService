@@ -53,6 +53,16 @@ public class OrderModel extends BaseModel {
 	private OrderStatusEnum status;
 	@NotNull
 	private Double price = 0.0;
+	@NotNull
+	private Integer words;
+
+	public Integer getWords() {
+		return words;
+	}
+
+	public void setWords(Integer words) {
+		this.words = words;
+	}
 
 	public Double getPrice() {
 		return price;
