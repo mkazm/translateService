@@ -28,7 +28,7 @@
 									<th>${dic.TRANSLATION_LANGUAGE}</th>
 									<th>${dic.DOCUMENT_TYPE}</th>
 									<th>${dic.WORD_NUMBER}</th>
-									<th>${dic.TRANSLATE}</th>
+									<th>${dic.CONFIRM}</th>
 								</tr>
 							</thead>
 							<c:set var="count" value="0" scope="page" />
@@ -44,7 +44,7 @@
 									<td>${o.words}</td>
 									<td><a
 										href="<c:url value="/user/translateAction/${o.id}"/>"
-										class="btn btn-default">${dic.TRANSLATE}</a></td>
+										class="btn btn-default">${dic.CONFIRM}</a></td>
 								</tr>
 							</c:forEach>
 							</tbody>

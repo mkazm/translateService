@@ -21,7 +21,7 @@ public class OrderDaoImpl extends GenericDaoImpl<OrderModel, Long> implements
 	@SuppressWarnings("unchecked")
 	public List<OrderModel> getOpenOrder() {
 		String query = "select o from " + getPersistentClass().getSimpleName()
-				+ " o where status = :status";
+				+ " o where o.status = :status";
 		return getEntityManager().createQuery(query)
 				.setParameter("status", OrderStatusEnum.OPEN).getResultList();
 	}

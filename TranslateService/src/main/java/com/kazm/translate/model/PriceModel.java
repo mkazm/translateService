@@ -4,12 +4,14 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.kazm.translate.dict.DocumentTypeEnum;
 import com.kazm.translate.dict.LanguageEnum;
 
 @Entity
-@Table(name = "price_table")
+@Table(name = "price_table", uniqueConstraints = @UniqueConstraint(columnNames = {
+		"documentLanguage", "translationLanguage", "documentType" }))
 public class PriceModel extends BaseModel {
 
 	private static final long serialVersionUID = 1786202222412502757L;

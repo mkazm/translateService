@@ -12,11 +12,7 @@
 
 		<div class="container">
 
-			<div class="starter-template">
-				<c:if test="${not empty error}">
-					<div class="alert alert-danger" style="text-align: center;"
-						role="alert">${error}</div>
-				</c:if>
+			<div class="starter-template">				
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">${dic.ADD_ORDER}</h3>
@@ -57,7 +53,7 @@
 							<div class="form-group">
 									<label class="col-sm-2 control-label">${dic.SELECT_FILE}</label>
 									<div class="col-sm-10">
-										 <input type="file" title="cos" name="file">
+										 <input type="file" title="plik" name="file" required>
 									</div>									
 								</div>		
 							<div class="form-actions pull-right">

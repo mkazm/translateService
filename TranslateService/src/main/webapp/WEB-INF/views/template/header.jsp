@@ -35,6 +35,7 @@
 					<li><a href="<c:url value="/j_spring_security_logout" />">${dic.LOGOUT}</a></li>
 					<sec:authorize access="hasRole('ROLE_CLIENT')">
 					<li><a href="<c:url value="/user/order"/>">${dic.ADD_ORDER}</a></li>
+					<li><a href="<c:url value="/user/clientOrderList"/>">${dic.ORDER_LIST}</a></li>
 					</sec:authorize>
 					<sec:authorize access="hasRole('ROLE_TRANSLATOR')">
 						<li><a href="<c:url value="/user/orderList"/>">${dic.ORDER_LIST}</a></li>
@@ -65,3 +66,11 @@
 		<!--/.nav-collapse -->
 	</div>
 </nav>
+<c:if test="${not empty info}">
+					<div class="alert alert-info" style="text-align: center;"
+						role="alert">${info}</div>
+				</c:if>
+				<c:if test="${not empty error}">
+					<div class="alert alert-danger" style="text-align: center;"
+						role="alert">${error}</div>
+				</c:if>

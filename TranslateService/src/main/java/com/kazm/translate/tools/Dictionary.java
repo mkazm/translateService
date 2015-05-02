@@ -85,13 +85,29 @@ public class Dictionary {
 	final String PRICE = "Cena";
 	final String DOCUMENT_TYPE = "Typ dokumentu";
 	final String BALANCE = "Saldo";
+	final String WORD_NUMBER = "Iloœæ s³ów";
+	final String CONFIRM = "PotwierdŸ";
 
-	// ///////////////////////////////
+	// ///////////////////////////////TRANSLATE MESSAGE///////////
+	public static final String EQUAL_LANGUAGE_WARNING = "Dokumenty nie mog¹ byæ w tych samych jêzykach";
+	public static final String TXT_FILE_WARNING = "Plik musi posiadaæ rozszerzenie *.txt";
+	public static final String PRICE_ADDED_WARNING = "Cena ju¿ ustalona";
+	public static final String PRICE_NOT_ADDED_WARNING = "Aktualnie brak mo¿liwoœci t³umaczenia w podanej kategorii";
+
+	// ////
 
 	final String MSG_LOG_TO_COMMENT = "Zaloguj by komentowaæ";
 	final String MSG_COMM_DEL = "Komentarz usuniêty";
 	final String MSG_MIN_INPUT = "Minimalna d³ugoœæ znaków";
 	final String MSG_EMAIN_NOT_CONFIRMED = "Logowanie wymaga aktywacji konta.";
+
+	public String getCONFIRM() {
+		return CONFIRM;
+	}
+
+	public String getWORD_NUMBER() {
+		return WORD_NUMBER;
+	}
 
 	public String getBALANCE() {
 		return BALANCE;

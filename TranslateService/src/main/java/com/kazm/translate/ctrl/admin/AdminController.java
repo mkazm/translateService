@@ -11,6 +11,7 @@ import com.kazm.translate.manager.AdminManager;
 import com.kazm.translate.manager.DaoManager;
 import com.kazm.translate.model.PriceModel;
 import com.kazm.translate.model.UserModel;
+import com.kazm.translate.tools.Dictionary;
 
 @Controller
 @RequestMapping("/admin")
@@ -61,6 +62,19 @@ public class AdminController {
 
 	@RequestMapping(value = "/priceAction")
 	public String priceAction(Model model, PriceModel price) {
+		if (price.getDocumentLanguage().equals(price.getTranslationLanguage())) {
+			model = getAdminMana().setPriceEditPage(model);
+			model.addAttribute("error", Dictionary.EQUAL_LANGUAGE_WARNING);
+			return "admin/price";
+		}
+		PriceModel tempPrice = getMana().getPriceDao().getPrice(
+				price.getDocumentLanguage(), price.getTranslationLanguage(),
+				price.getDocumentType());
+		if (tempPrice != null) {
+			model = getAdminMana().setPriceEditPage(model);
+			model.addAttribute("error", Dictionary.PRICE_ADDED_WARNING);
+			return "admin/price";
+		}
 		getMana().getPriceDao().save(price);
 		return "redirect:/admin/price";
 	}

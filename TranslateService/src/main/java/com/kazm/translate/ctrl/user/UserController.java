@@ -25,7 +25,10 @@ import com.kazm.translate.manager.DaoManager;
 import com.kazm.translate.manager.UserPageManager;
 import com.kazm.translate.model.DocumentModel;
 import com.kazm.translate.model.OrderModel;
+import com.kazm.translate.model.PriceModel;
 import com.kazm.translate.model.UserModel;
+import com.kazm.translate.tools.Dictionary;
+import com.kazm.translate.tools.Tools;
 
 @Controller
 @Transactional
@@ -77,6 +80,18 @@ public class UserController {
 	public String orderList(Model model) {
 		getUserPageMana().setOrderListPage(model);
 		return "user/orderList";
+	}
+
+	@RequestMapping(value = "/clientOrderList")
+	public String clientOrderList(Model model) {
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			String username = auth.getName();
+			UserModel user = getMana().getUserDao().findByUsername(username);
+			getUserPageMana().setClientOrderListPage(model, user.getId());
+		}
+		return "user/clientOrderList";
 	}
 
 	@RequestMapping(value = "/translatingList")
@@ -131,11 +146,30 @@ public class UserController {
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			if (order.getDocumentLanguage().equals(
+					order.getTranslationLanguage())) {
+				model.addAttribute("error", Dictionary.EQUAL_LANGUAGE_WARNING);
+				return "user/addOrder";
+			}
+			String filename = file.getOriginalFilename();
+			if (!filename.endsWith(".txt")) {
+				model.addAttribute("error", Dictionary.TXT_FILE_WARNING);
+				return "user/addOrder";
+			}
+			PriceModel price = getMana().getPriceDao().getPrice(
+					order.getDocumentLanguage(),
+					order.getTranslationLanguage(), order.getDocumentType());
+			if (price == null) {
+				model.addAttribute("info", Dictionary.PRICE_NOT_ADDED_WARNING);
+				return "user/addOrder";
+			}
 			String username = auth.getName();
 			DocumentModel document = new DocumentModel();
 			UserModel client = getMana().getUserDao().findByUsername(username);
 			try {
 				byte[] bytes = file.getBytes();
+				String text = new String(bytes, "UTF-8");
+				int wordNumber = Tools.wordCount(text);
 				document.setName(file.getOriginalFilename());
 				String rootPath = System.getProperty("catalina.home");
 				File dir = new File(rootPath + File.separator + "media"
@@ -159,18 +193,19 @@ public class UserController {
 
 				document = getMana().getDocumentDao().save(document);
 
+				order.setClient(client);
+				order.setStatus(OrderStatusEnum.OPEN);
+				order.setDocument(document);
+				order.setWords(wordNumber);
+
+				order = getMana().getOrderDao().save(order);
+
+				getUserPageMana().setUserPageModel(model, auth);
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-			order.setClient(client);
-			order.setStatus(OrderStatusEnum.OPEN);
-			order.setDocument(document);
-
-			order = getMana().getOrderDao().save(order);
-
-			getUserPageMana().setUserPageModel(model, auth);
 		}
 		return "user/addOrder";
 	}
