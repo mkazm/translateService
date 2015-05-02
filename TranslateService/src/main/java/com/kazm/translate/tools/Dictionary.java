@@ -82,6 +82,8 @@ public class Dictionary {
 	final String STATUS = "Status";
 	final String CANCEL = "Rezugnuj";
 	final String TRANSLATING = "W T³umaczeniu";
+	final String PRICE = "Cena";
+	final String DOCUMENT_TYPE = "Typ dokumentu";
 
 	// ///////////////////////////////
 
@@ -89,6 +91,14 @@ public class Dictionary {
 	final String MSG_COMM_DEL = "Komentarz usuniêty";
 	final String MSG_MIN_INPUT = "Minimalna d³ugoœæ znaków";
 	final String MSG_EMAIN_NOT_CONFIRMED = "Logowanie wymaga aktywacji konta.";
+
+	public String getPRICE() {
+		return PRICE;
+	}
+
+	public String getDOCUMENT_TYPE() {
+		return DOCUMENT_TYPE;
+	}
 
 	public String getSEARCH_TITLE() {
 		return SEARCH_TITLE;

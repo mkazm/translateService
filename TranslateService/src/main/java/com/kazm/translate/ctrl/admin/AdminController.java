@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kazm.translate.manager.AdminManager;
 import com.kazm.translate.manager.DaoManager;
+import com.kazm.translate.model.PriceModel;
 import com.kazm.translate.model.UserModel;
 
 @Controller
@@ -48,8 +49,26 @@ public class AdminController {
 		UserModel user = getMana().getUserDao().findById(id);
 		user.setActivated("Y");
 		getMana().getUserDao().update(user);
-		model = getAdminMana().setUserEditPage(model);
 		return "redirect:/admin/activate";
+	}
+
+	@RequestMapping(value = "/price")
+	public String price(Model model) {
+		model = getAdminMana().setPriceEditPage(model);
+		return "admin/price";
+	}
+
+	@RequestMapping(value = "/priceAction")
+	public String priceAction(Model model, PriceModel price) {
+		getMana().getPriceDao().save(price);
+		return "redirect:/admin/price";
+	}
+
+	@RequestMapping(value = "/priceRemove/{id}")
+	public String priceRemoveAction(Model model, @PathVariable long id) {
+		PriceModel price = getMana().getPriceDao().findById(id);
+		getMana().getPriceDao().delete(price);
+		return "redirect:/admin/price";
 	}
 
 }

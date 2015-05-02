@@ -13,18 +13,41 @@
 		<div class="container">
 
 			<div class="starter-template">
-				<c:if test="${not empty error}">
-					<div class="alert alert-danger" style="text-align: center;"
-						role="alert">${error}</div>
-				</c:if>
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">${dic.ADD_ORDER}</h3>
+						<h3 class="panel-title">${dic.PRICE}</h3>
 					</div>
 					<div class="panel-body">
-						<form modelAttribute="order" class="form-horizontal" method="post"
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>#</th>									
+									<th>${dic.DOCUMENT_LANGUAGE}</th>
+									<th>${dic.TRANSLATION_LANGUAGE}</th>
+									<th>${dic.DOCUMENT_TYPE}</th>
+									<th>${dic.PRICE}</th>
+								</tr>
+							</thead>
+							<c:set var="count" value="0" scope="page" />
+							<c:forEach var="p" items="${priceList}">
+								<c:set var="count" value="${count + 1}" scope="page" />
+								<tr>
+									<td>${count}</td>
+									<td>${p.documentLanguage}</td>
+									<td>${p.translationLanguage}</td>
+									<td>${p.documentType}</td>
+									<td>${p.price}</td>
+									<td><a
+										href="<c:url value="/admin/priceRemove/${p.id}"/>"
+										class="btn btn-default">${dic.DELETE}</a></td>
+								</tr>
+							</c:forEach>
+
+							</tbody>
+						</table>
+						<form modelAttribute="price" class="form-horizontal" method="post"
 							data-toggle="validator" id="add-order-form" enctype="multipart/form-data"
-							action="<c:url value="/user/orderAction"/>">
+							action="<c:url value="/admin/priceAction"/>">
 							<div class="form-group">
 								<label class="col-sm-2 control-label">${dic.DOCUMENT_LANGUAGE}</label>
 								<div class="col-sm-10">
@@ -53,19 +76,20 @@
 										<option value="TECHNICAL">TECHNICAL</option>
 									</select>
 								</div>
-							</div>
+							</div>	
 							<div class="form-group">
-									<label class="col-sm-2 control-label">${dic.SELECT_FILE}</label>
-									<div class="col-sm-10">
-										 <input type="file" title="cos" name="file">
-									</div>									
-								</div>		
+								<label class="col-sm-2 control-label">${dic.PRICE}</label>
+								<div class="col-sm-10">
+								<input type="number" class="form-control" name="price"
+										id="price" title="price"
+										placeholder="${dic.PRICE}" value="" required>
+								</div>
+							</div>	
 							<div class="form-actions pull-right">
-								<button type="submit" class="btn btn-success">${dic.ADD_ORDER}</button>
+								<button type="submit" class="btn btn-success">${dic.ADD}</button>
 								<button type="reset" class="btn">${dic.CLEAN}</button>
 							</div>
 						</form>
-
 					</div>
 				</div>
 			</div>

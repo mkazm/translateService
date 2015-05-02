@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.kazm.translate.model.PriceModel;
 import com.kazm.translate.model.RoleModel;
 import com.kazm.translate.model.UserModel;
 
@@ -33,6 +34,12 @@ public class AdminManager {
 	public Model setModsEditPage(Model model) {
 		List<RoleModel> userList = getMana().getRoleDao().getAllModerators();
 		model.addAttribute("userList", userList);
+		return model;
+	}
+
+	public Model setPriceEditPage(Model model) {
+		List<PriceModel> priceList = getMana().getPriceDao().findAll();
+		model.addAttribute("priceList", priceList);
 		return model;
 	}
 

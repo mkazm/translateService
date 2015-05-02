@@ -26,14 +26,23 @@ public class UserModel extends BaseModel {
 	@NotNull
 	@Size(min = 1, max = 1)
 	private String activated;
-
 	private String hash;
 	@NotNull
 	@Size(min = 1, max = 1)
 	private String level;
-
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private RoleEnum mainRole;
+	@NotNull
+	private Double balance = 0.0;
+
+	public Double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(Double balance) {
+		this.balance = balance;
+	}
 
 	public String getLevel() {
 		return level;

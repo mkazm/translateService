@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.kazm.translate.dao.DocumentDao;
 import com.kazm.translate.dao.OrderDao;
+import com.kazm.translate.dao.PriceDao;
 import com.kazm.translate.dao.RoleDao;
 import com.kazm.translate.dao.UserDao;
 
@@ -24,6 +25,17 @@ public class DaoManager {
 
 	@Autowired
 	private OrderDao orderDao;
+
+	@Autowired
+	private PriceDao priceDao;
+
+	public PriceDao getPriceDao() {
+		return priceDao;
+	}
+
+	public void setPriceDao(PriceDao priceDao) {
+		this.priceDao = priceDao;
+	}
 
 	public UserDao getUserDao() {
 		return userDao;

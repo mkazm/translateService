@@ -7,10 +7,12 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
+import com.kazm.translate.dict.DocumentTypeEnum;
 import com.kazm.translate.dict.LanguageEnum;
 import com.kazm.translate.dict.OrderStatusEnum;
 
@@ -23,23 +25,42 @@ public class OrderModel extends BaseModel {
 	private DateTime startStamp;
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime endStamp;
+	@NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "client_id")
 	private UserModel client;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "worker_id")
 	private UserModel worker;
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private LanguageEnum documentLanguage;
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private LanguageEnum translationLanguage;
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private DocumentTypeEnum documentType;
+	@NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "document_id")
 	private DocumentModel document;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "translation_id")
 	private DocumentModel translation;
+	@NotNull
+	@Enumerated(EnumType.STRING)
 	private OrderStatusEnum status;
+	@NotNull
+	private Double price = 0.0;
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
 
 	public UserModel getClient() {
 		return client;
@@ -95,6 +116,30 @@ public class OrderModel extends BaseModel {
 
 	public void setStatus(OrderStatusEnum status) {
 		this.status = status;
+	}
+
+	public DateTime getStartStamp() {
+		return startStamp;
+	}
+
+	public void setStartStamp(DateTime startStamp) {
+		this.startStamp = startStamp;
+	}
+
+	public DateTime getEndStamp() {
+		return endStamp;
+	}
+
+	public void setEndStamp(DateTime endStamp) {
+		this.endStamp = endStamp;
+	}
+
+	public DocumentTypeEnum getDocumentType() {
+		return documentType;
+	}
+
+	public void setDocumentType(DocumentTypeEnum documentType) {
+		this.documentType = documentType;
 	}
 
 }

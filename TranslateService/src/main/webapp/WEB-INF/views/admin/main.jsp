@@ -18,7 +18,8 @@
 						<h3 class="panel-title">Admin</h3>
 					</div>
 					<div class="panel-body">
-					<a href="<c:url value="/admin/activate"/>"><button class="btn btn-success">${dic.ACTIVATE}</button></a>					
+					<a href="<c:url value="/admin/activate"/>"><button class="btn btn-success">${dic.ACTIVATE}</button></a>
+					<a href="<c:url value="/admin/price"/>"><button class="btn btn-success">${dic.PRICE}</button></a>					
 					</div>
 				</div>
 			</div>
