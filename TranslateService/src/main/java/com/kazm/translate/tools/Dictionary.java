@@ -87,12 +87,16 @@ public class Dictionary {
 	final String BALANCE = "Saldo";
 	final String WORD_NUMBER = "Iloœæ s³ów";
 	final String CONFIRM = "PotwierdŸ";
+	final String DOCUMENT = "Dokument";
+	final String TRANSLATION = "T³umaczenie";
+	final String FILE = "Plik";
 
 	// ///////////////////////////////TRANSLATE MESSAGE///////////
 	public static final String EQUAL_LANGUAGE_WARNING = "Dokumenty nie mog¹ byæ w tych samych jêzykach";
 	public static final String TXT_FILE_WARNING = "Plik musi posiadaæ rozszerzenie *.txt";
 	public static final String PRICE_ADDED_WARNING = "Cena ju¿ ustalona";
 	public static final String PRICE_NOT_ADDED_WARNING = "Aktualnie brak mo¿liwoœci t³umaczenia w podanej kategorii";
+	public static final String PRICE_TOO_HIGH = "Brak wystarczaj¹cych œrodków.";
 
 	// ////
 
@@ -100,6 +104,18 @@ public class Dictionary {
 	final String MSG_COMM_DEL = "Komentarz usuniêty";
 	final String MSG_MIN_INPUT = "Minimalna d³ugoœæ znaków";
 	final String MSG_EMAIN_NOT_CONFIRMED = "Logowanie wymaga aktywacji konta.";
+
+	public String getDOCUMENT() {
+		return DOCUMENT;
+	}
+
+	public String getTRANSLATION() {
+		return TRANSLATION;
+	}
+
+	public String getFILE() {
+		return FILE;
+	}
 
 	public String getCONFIRM() {
 		return CONFIRM;

@@ -1,5 +1,7 @@
 package com.kazm.translate.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -34,13 +36,13 @@ public class UserModel extends BaseModel {
 	@Enumerated(EnumType.STRING)
 	private RoleEnum mainRole;
 	@NotNull
-	private Double balance = 0.0;
+	private BigDecimal balance = new BigDecimal(0);
 
-	public Double getBalance() {
+	public BigDecimal getBalance() {
 		return balance;
 	}
 
-	public void setBalance(Double balance) {
+	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
 	}
 

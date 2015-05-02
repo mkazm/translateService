@@ -80,7 +80,7 @@
 							<div class="form-group">
 								<label class="col-sm-2 control-label">${dic.PRICE}</label>
 								<div class="col-sm-10">
-								<input type="number" class="form-control" name="price"
+								<input type="number" step="0.01" class="form-control" name="price"
 										id="price" title="price"
 										placeholder="${dic.PRICE}" value="" required>
 								</div>

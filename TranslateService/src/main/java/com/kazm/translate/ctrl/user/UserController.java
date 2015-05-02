@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -169,7 +170,14 @@ public class UserController {
 			try {
 				byte[] bytes = file.getBytes();
 				String text = new String(bytes, "UTF-8");
-				int wordNumber = Tools.wordCount(text);
+				BigDecimal wordNumber = new BigDecimal(Tools.wordCount(text));
+				BigDecimal finalPrice = price.getPrice().multiply(wordNumber);
+				if (finalPrice.compareTo(client.getBalance()) > 0) {
+					model.addAttribute("info", Dictionary.PRICE_TOO_HIGH
+							+ " Cena: " + finalPrice + "z³" + " Saldo: "
+							+ client.getBalance() + "z³");
+					return "user/addOrder";
+				}
 				document.setName(file.getOriginalFilename());
 				String rootPath = System.getProperty("catalina.home");
 				File dir = new File(rootPath + File.separator + "media"
@@ -192,11 +200,13 @@ public class UserController {
 				document.setPath(filePath);
 
 				document = getMana().getDocumentDao().save(document);
-
+				client.setBalance(client.getBalance().add(finalPrice.negate()));
+				getMana().getUserDao().update(client);
 				order.setClient(client);
 				order.setStatus(OrderStatusEnum.OPEN);
 				order.setDocument(document);
 				order.setWords(wordNumber);
+				order.setPrice(finalPrice);
 
 				order = getMana().getOrderDao().save(order);
 
@@ -209,4 +219,59 @@ public class UserController {
 		}
 		return "user/addOrder";
 	}
+
+	@RequestMapping(value = "/orderTranslateAction", method = RequestMethod.POST)
+	public String orderTranslateAction(Model model, @RequestParam Long id,
+			@RequestParam("file") MultipartFile file) {
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			String username = auth.getName();
+			UserModel user = getMana().getUserDao().findByUsername(username);
+			OrderModel orderModel = getMana().getOrderDao().findById(id);
+			String filename = file.getOriginalFilename();
+			if (!filename.endsWith(".txt")) {
+				getUserPageMana().setTranslatingListPage(model, user.getId());
+				model.addAttribute("error", Dictionary.TXT_FILE_WARNING);
+				return "user/addOrder";
+			}
+			DocumentModel document = new DocumentModel();
+			document.setName(file.getOriginalFilename());
+			byte[] bytes = null;
+			try {
+				bytes = file.getBytes();
+
+				String rootPath = System.getProperty("catalina.home");
+				File dir = new File(rootPath + File.separator + "media"
+						+ File.separator + "documents");
+				if (!dir.exists())
+					dir.mkdirs();
+				String fileName = file.getOriginalFilename();
+				String filePath = dir.getAbsolutePath() + File.separator
+						+ fileName;
+				File serverFile = new File(filePath);
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(serverFile));
+				stream.write(bytes);
+				stream.close();
+
+				logger.info("Server File Location="
+						+ serverFile.getAbsolutePath());
+
+				document.setName(fileName);
+				document.setPath(filePath);
+				document = getMana().getDocumentDao().save(document);
+
+				orderModel.setTranslation(document);
+				orderModel.setStatus(OrderStatusEnum.FINISHED);
+				getMana().getOrderDao().update(orderModel);
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return "redirect:/user/translatingList";
+	}
+
 }

@@ -1,5 +1,7 @@
 package com.kazm.translate.ctrl.admin;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -94,7 +96,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/balanceAction")
 	public String balanceAction(Model model, @RequestParam Long id,
-			@RequestParam Double balance) {
+			@RequestParam BigDecimal balance) {
 		UserModel user = getMana().getUserDao().findById(id);
 		user.setBalance(balance);
 		getMana().getUserDao().update(user);

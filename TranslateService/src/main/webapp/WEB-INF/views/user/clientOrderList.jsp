@@ -28,6 +28,7 @@
 									<th>${dic.TRANSLATION_LANGUAGE}</th>
 									<th>${dic.DOCUMENT_TYPE}</th>
 									<th>${dic.WORD_NUMBER}</th>
+									<th>${dic.DOCUMENT}</th>
 									<th>${dic.CONFIRM}</th>
 								</tr>
 							</thead>
@@ -42,6 +43,9 @@
 									<td>${o.translationLanguage}</td>
 									<td>${o.documentType}</td>
 									<td>${o.words}</td>
+									<td><a
+										href="<c:url value="${o.document.path}"/>"
+										class="btn btn-default">${dic.FILE}</a></td>
 									<td><a
 										href="<c:url value="/user/translateAction/${o.id}"/>"
 										class="btn btn-default">${dic.CONFIRM}</a></td>

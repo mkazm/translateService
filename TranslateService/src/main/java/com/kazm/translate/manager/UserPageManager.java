@@ -43,6 +43,7 @@ public class UserPageManager {
 
 	public Model setOrderListPage(Model model) {
 		List<OrderModel> orderList = getMana().getOrderDao().getOpenOrder();
+		orderList = changeDocumentPath(orderList);
 		model.addAttribute("orderList", orderList);
 		return model;
 	}
@@ -50,6 +51,7 @@ public class UserPageManager {
 	public Model setClientOrderListPage(Model model, Long clientId) {
 		List<OrderModel> orderList = getMana().getOrderDao().getClientOrder(
 				clientId);
+		orderList = changeDocumentPath(orderList);
 		model.addAttribute("orderList", orderList);
 		return model;
 	}
@@ -57,8 +59,23 @@ public class UserPageManager {
 	public Model setTranslatingListPage(Model model, Long translatorId) {
 		List<OrderModel> orderList = getMana().getOrderDao()
 				.getTranslatorOrder(translatorId);
+		orderList = changeDocumentPath(orderList);
 		model.addAttribute("orderList", orderList);
 		return model;
 	}
 
+	private List<OrderModel> changeDocumentPath(List<OrderModel> orderList) {
+		String rootPath = System.getProperty("catalina.home");
+		for (OrderModel orderModel : orderList) {
+			String path = orderModel.getDocument().getPath();
+			path = path.replace(rootPath, "");
+			orderModel.getDocument().setPath(path);
+			if (orderModel.getTranslation() != null) {
+				path = orderModel.getTranslation().getPath();
+				path = path.replace(rootPath, "");
+				orderModel.getTranslation().setPath(path);
+			}
+		}
+		return orderList;
+	}
 }

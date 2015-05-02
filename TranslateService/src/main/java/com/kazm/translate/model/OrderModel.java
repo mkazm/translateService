@@ -1,5 +1,7 @@
 package com.kazm.translate.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -52,24 +54,24 @@ public class OrderModel extends BaseModel {
 	@Enumerated(EnumType.STRING)
 	private OrderStatusEnum status;
 	@NotNull
-	private Double price = 0.0;
+	private BigDecimal price = new BigDecimal(0);
 	@NotNull
-	private Integer words;
+	private BigDecimal words;
 
-	public Integer getWords() {
-		return words;
-	}
-
-	public void setWords(Integer words) {
-		this.words = words;
-	}
-
-	public Double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
+	}
+
+	public BigDecimal getWords() {
+		return words;
+	}
+
+	public void setWords(BigDecimal words) {
+		this.words = words;
 	}
 
 	public UserModel getClient() {

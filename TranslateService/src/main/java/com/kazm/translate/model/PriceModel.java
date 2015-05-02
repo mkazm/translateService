@@ -1,5 +1,7 @@
 package com.kazm.translate.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -21,7 +23,7 @@ public class PriceModel extends BaseModel {
 	private LanguageEnum translationLanguage;
 	@Enumerated(EnumType.STRING)
 	private DocumentTypeEnum documentType;
-	private Double price;
+	private BigDecimal price;
 
 	public LanguageEnum getDocumentLanguage() {
 		return documentLanguage;
@@ -47,11 +49,11 @@ public class PriceModel extends BaseModel {
 		this.documentType = documentType;
 	}
 
-	public Double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
