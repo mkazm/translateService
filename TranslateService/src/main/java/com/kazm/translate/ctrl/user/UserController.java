@@ -172,19 +172,20 @@ public class UserController {
 				String text = new String(bytes, "UTF-8");
 				BigDecimal wordNumber = new BigDecimal(Tools.wordCount(text));
 				BigDecimal finalPrice = price.getPrice().multiply(wordNumber);
+				document = getMana().getDocumentDao().save(document);
 				if (finalPrice.compareTo(client.getBalance()) > 0) {
 					model.addAttribute("info", Dictionary.PRICE_TOO_HIGH
 							+ " Cena: " + finalPrice + "z³" + " Saldo: "
 							+ client.getBalance() + "z³");
 					return "user/addOrder";
 				}
-				document.setName(file.getOriginalFilename());
 				String rootPath = System.getProperty("catalina.home");
 				File dir = new File(rootPath + File.separator + "media"
 						+ File.separator + "documents");
 				if (!dir.exists())
 					dir.mkdirs();
-				String fileName = file.getOriginalFilename();
+				String fileName = document.getId() + "_"
+						+ file.getOriginalFilename();
 				String filePath = dir.getAbsolutePath() + File.separator
 						+ fileName;
 				File serverFile = new File(filePath);
@@ -197,9 +198,9 @@ public class UserController {
 						+ serverFile.getAbsolutePath());
 
 				document.setName(fileName);
-				document.setPath(filePath);
+				document.setPath(filePath.replace(rootPath, ""));
 
-				document = getMana().getDocumentDao().save(document);
+				document = getMana().getDocumentDao().update(document);
 				client.setBalance(client.getBalance().add(finalPrice.negate()));
 				getMana().getUserDao().update(client);
 				order.setClient(client);
@@ -240,13 +241,15 @@ public class UserController {
 			byte[] bytes = null;
 			try {
 				bytes = file.getBytes();
+				document = getMana().getDocumentDao().save(document);
 
 				String rootPath = System.getProperty("catalina.home");
 				File dir = new File(rootPath + File.separator + "media"
 						+ File.separator + "documents");
 				if (!dir.exists())
 					dir.mkdirs();
-				String fileName = file.getOriginalFilename();
+				String fileName = document.getId() + "_"
+						+ file.getOriginalFilename();
 				String filePath = dir.getAbsolutePath() + File.separator
 						+ fileName;
 				File serverFile = new File(filePath);
@@ -259,8 +262,8 @@ public class UserController {
 						+ serverFile.getAbsolutePath());
 
 				document.setName(fileName);
-				document.setPath(filePath);
-				document = getMana().getDocumentDao().save(document);
+				document.setPath(filePath.replace(rootPath, ""));
+				document = getMana().getDocumentDao().update(document);
 
 				orderModel.setTranslation(document);
 				orderModel.setStatus(OrderStatusEnum.FINISHED);
@@ -271,6 +274,34 @@ public class UserController {
 				e.printStackTrace();
 			}
 		}
+		return "redirect:/user/translatingList";
+	}
+
+	@RequestMapping(value = "/orderTranslateRemoveAction/{id}", method = RequestMethod.GET)
+	public String orderTranslateRemoveAction(Model model, @PathVariable Long id) {
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			String rootPath = System.getProperty("catalina.home");
+			OrderModel orderModel = getMana().getOrderDao().findById(id);
+			DocumentModel documentModel = orderModel.getTranslation();
+			String filePath = rootPath + documentModel.getPath();
+			try {
+				File file = new File(filePath);
+				if (file.delete()) {
+					System.out.println(file.getName() + " is deleted!");
+				} else {
+					System.out.println("Delete operation is failed.");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			orderModel.setTranslation(null);
+			orderModel.setStatus(OrderStatusEnum.IN_PROGRESS);
+			getMana().getOrderDao().update(orderModel);
+			getMana().getDocumentDao().delete(documentModel);
+		}
+
 		return "redirect:/user/translatingList";
 	}
 

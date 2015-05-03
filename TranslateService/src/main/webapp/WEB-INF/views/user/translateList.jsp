@@ -28,7 +28,7 @@
 									<th>${dic.TRANSLATION_LANGUAGE}</th>
 									<th>${dic.DOCUMENT}</th>
 									<th>${dic.TRANSLATION}</th>
-									<th>${dic.CANCEL}</th>
+									<th>${dic.EDIT}</th>
 								</tr>
 							</thead>
 							<c:set var="count" value="0" scope="page" />
@@ -42,22 +42,26 @@
 									<td>${o.translationLanguage}</td>
 									<td><a href="<c:url value="${o.document.path}"/>"
 										class="btn btn-default">${dic.FILE}</a></td>
-										<c:if test="${empty o.translation.path}">
-									<td><form class="form-horizontal"
-											method="post" data-toggle="validator" id="add-order-form"
+									<c:if test="${empty o.translation.path}">
+										<form class="form-horizontal" method="post"
+											data-toggle="validator" id="add-order-form"
 											enctype="multipart/form-data"
 											action="<c:url value="/user/orderTranslateAction"/>">
-											<input type="file" title="plik" name="file" required>
-											<button type="submit" name="id" value="${o.id}" class="btn btn-success">${dic.ADD}</button>
-											</form></td>
-										</c:if>
-										<c:if test="${not empty o.translation.path}">
+											<td><input type="file" title="plik" name="file" required>
+												<button type="submit" name="id" value="${o.id}"
+													class="btn btn-success">${dic.ADD}</button></td>
+										<td><a
+											href="<c:url value="/user/cancelTranslateAction/${o.id}"/>"
+											class="btn btn-default">${dic.CANCEL}</a></td>
+										</form>
+									</c:if>
+									<c:if test="${not empty o.translation.path}">
 										<td><a href="<c:url value="${o.translation.path}"/>"
-										class="btn btn-default">${dic.FILE}</a></td>
-										</c:if>
-									<td><a
-										href="<c:url value="/user/cancelTranslateAction/${o.id}"/>"
-										class="btn btn-default">${dic.CANCEL}</a></td>
+											class="btn btn-default">${dic.FILE}</a></td>
+											<td><a
+										href="<c:url value="/user//orderTranslateRemoveAction/${o.id}"/>"
+										class="btn btn-default">${dic.DELETE}</a></td>
+									</c:if>									
 								</tr>
 							</c:forEach>
 							</tbody>
