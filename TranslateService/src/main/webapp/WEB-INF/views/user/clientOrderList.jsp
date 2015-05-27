@@ -46,9 +46,16 @@
 									<td><a
 										href="<c:url value="${o.document.path}"/>"
 										class="btn btn-default">${dic.FILE}</a></td>
+										<c:if test="${o.status == 'FINISHED'}">
 									<td><a
 										href="<c:url value="/user/translateAction/${o.id}"/>"
 										class="btn btn-default">${dic.CONFIRM}</a></td>
+										</c:if>
+										<c:if test="${o.status == 'OPEN'}">
+									<td><a
+										href="<c:url value="/user/orderRemoveAction/${o.id}"/>"
+										class="btn btn-default">${dic.DELETE}</a></td>
+										</c:if>
 								</tr>
 							</c:forEach>
 							</tbody>

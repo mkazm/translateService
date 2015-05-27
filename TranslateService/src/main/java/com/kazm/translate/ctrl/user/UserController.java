@@ -134,7 +134,27 @@ public class UserController {
 			if (order.getWorker().getId().equals(user.getId())) {
 				order.setWorker(null);
 				order.setStatus(OrderStatusEnum.OPEN);
-				mana.getOrderDao().update(order);
+				if (order.getTranslation() != null) {
+					String rootPath = System.getProperty("catalina.home");
+					DocumentModel documentModel = order.getTranslation();
+					String filePath = rootPath + documentModel.getPath();
+					try {
+						File file = new File(filePath);
+						if (file.delete()) {
+							System.out.println(file.getName() + " is deleted!");
+						} else {
+							System.out.println("Delete operation is failed.");
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					order.setTranslation(null);
+					getMana().getOrderDao().update(order);
+					getMana().getDocumentDao().delete(documentModel);
+				} else {
+					mana.getOrderDao().update(order);
+				}
+
 			}
 			getUserPageMana().setTranslatingListPage(model, user.getId());
 		}
@@ -210,6 +230,9 @@ public class UserController {
 				order.setPrice(finalPrice);
 
 				order = getMana().getOrderDao().save(order);
+				BigDecimal newBalance = client.getBalance().add(
+						finalPrice.negate());
+				client.setBalance(newBalance);
 
 				getUserPageMana().setUserPageModel(model, auth);
 
@@ -303,6 +326,42 @@ public class UserController {
 		}
 
 		return "redirect:/user/translatingList";
+	}
+
+	@RequestMapping(value = "/orderRemoveAction/{id}", method = RequestMethod.GET)
+	public String orderRemoveAction(Model model, @PathVariable Long id) {
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			String rootPath = System.getProperty("catalina.home");
+			OrderModel orderModel = getMana().getOrderDao().findById(id);
+			if (orderModel.getStatus().equals(OrderStatusEnum.OPEN)) {
+				DocumentModel documentModel = orderModel.getDocument();
+				String filePath = rootPath + documentModel.getPath();
+				try {
+					File file = new File(filePath);
+					if (file.delete()) {
+						System.out.println(file.getName() + " is deleted!");
+					} else {
+						System.out.println("Delete operation is failed.");
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				String username = auth.getName();
+				UserModel client = getMana().getUserDao().findByUsername(
+						username);
+				BigDecimal finalPrice = orderModel.getPrice();
+				orderModel.setTranslation(null);
+				getMana().getOrderDao().delete(orderModel);
+				getMana().getDocumentDao().delete(documentModel);
+				BigDecimal newBalance = client.getBalance().add(finalPrice);
+				client.setBalance(newBalance);
+			}
+		}
+
+		return "redirect:/user/clientOrderList";
 	}
 
 }

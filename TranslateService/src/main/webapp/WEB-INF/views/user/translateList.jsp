@@ -59,7 +59,7 @@
 										<td><a href="<c:url value="${o.translation.path}"/>"
 											class="btn btn-default">${dic.FILE}</a></td>
 											<td><a
-										href="<c:url value="/user//orderTranslateRemoveAction/${o.id}"/>"
+										href="<c:url value="/user/orderTranslateRemoveAction/${o.id}"/>"
 										class="btn btn-default">${dic.DELETE}</a></td>
 									</c:if>									
 								</tr>

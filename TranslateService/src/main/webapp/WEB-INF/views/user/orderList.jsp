@@ -28,6 +28,7 @@
 									<th>${dic.TRANSLATION_LANGUAGE}</th>
 									<th>${dic.DOCUMENT_TYPE}</th>
 									<th>${dic.WORD_NUMBER}</th>
+									<th>${dic.PRICE}</th>
 									<th>${dic.TRANSLATE}</th>
 								</tr>
 							</thead>
@@ -42,6 +43,7 @@
 									<td>${o.translationLanguage}</td>
 									<td>${o.documentType}</td>
 									<td>${o.words}</td>
+									<td>${o.price}</td>
 									<td><a
 										href="<c:url value="/user/translateAction/${o.id}"/>"
 										class="btn btn-default">${dic.TRANSLATE}</a></td>
