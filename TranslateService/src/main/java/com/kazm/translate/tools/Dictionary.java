@@ -86,7 +86,7 @@ public class Dictionary {
 	final String DOCUMENT_TYPE = "Typ dokumentu";
 	final String BALANCE = "Saldo";
 	final String WORD_NUMBER = "Iloœæ s³ów";
-	final String CONFIRM = "PotwierdŸ";
+	final String CONFIRM = "PotwierdŸ/Usuñ";
 	final String DOCUMENT = "Dokument";
 	final String TRANSLATION = "T³umaczenie";
 	final String FILE = "Plik";

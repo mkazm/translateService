@@ -38,7 +38,7 @@
 									<form method="post" data-toggle="validator" id="add-order-form"
 										enctype="multipart/form-data"
 										action="<c:url value="/admin/balanceAction"/>">
-									<td><input type="number" class="form-control" name="balance"
+									<td><input type="number" step="0.01" class="form-control" name="balance"
 										id="balance" title="balance"
 										placeholder="${dic.BALANCE}" value="${u.balance}" required></td>
 									<td><button type="submit" name="id" value="${u.id}" class="btn btn-success">${dic.ADD}</button></td>

@@ -24,36 +24,36 @@
 				</c:if>
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">${dic.LOGIN}</h3>
+						<h3 class="panel-title">Zaloguj</h3>
 					</div>
 					<div class="panel-body">
 						<form modelAttribute="user" class="form-horizontal" method="post"
 							id="add-user-form" action="j_spring_security_check"
 							data-toggle="validator">
 							<div class="form-group">
-								<label for="inputTitle" class="col-sm-2 control-label">${dic.USERNAME}</label>
+								<label for="inputTitle" class="col-sm-2 control-label">Login</label>
 								<div class="col-sm-10">
 									<input type="text" pattern="^([_A-z0-9]){3,}$" data-minlength="3" data-error="Błędny format" maxlength="13" class="form-control" name="username"
 										id="username" title="username" value=""
-										placeholder="${dic.USERNAME}" required> <span
+										placeholder="Login" required> <span
 										class="help-inline"><form:errors path="firstName" /></span>
 									<div class="help-block with-errors"></div>
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="inputTitle" class="col-sm-2 control-label">${dic.PASSWORD}</label>
+								<label for="inputTitle" class="col-sm-2 control-label">Hasło</label>
 								<div class="col-sm-10">
 									<input type="password" data-minlength="3" class="form-control"
 										name="password" id="password" title="password" value=""
-										placeholder="${dic.PASSWORD}"
+										placeholder="Hasło"
 										data-error="Minimalna długość znaków: 6" required> <span
 										class="help-inline"><form:errors path="password" /></span>
 									<div class="help-block with-errors"></div>
 								</div>
 							</div>
 							<div class="form-actions pull-right">
-								<button type="submit" class="btn btn-success">${dic.LOGIN}</button>
-								<button type="reset" class="btn">${dic.CLEAN}</button>
+								<button type="submit" class="btn btn-success">Zaloguj</button>
+								<button type="reset" class="btn">Wyczyść</button>
 							</div>
 						</form>
 					</div>

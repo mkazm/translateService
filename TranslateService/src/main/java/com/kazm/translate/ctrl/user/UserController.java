@@ -221,7 +221,6 @@ public class UserController {
 				document.setPath(filePath.replace(rootPath, ""));
 
 				document = getMana().getDocumentDao().update(document);
-				client.setBalance(client.getBalance().add(finalPrice.negate()));
 				getMana().getUserDao().update(client);
 				order.setClient(client);
 				order.setStatus(OrderStatusEnum.OPEN);
@@ -326,6 +325,31 @@ public class UserController {
 		}
 
 		return "redirect:/user/translatingList";
+	}
+
+	@RequestMapping(value = "/orderConfirmAction/{id}", method = RequestMethod.GET)
+	public String orderConfirm(Model model, @PathVariable Long id) {
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			OrderModel order = mana.getOrderDao().findById(id);
+			UserModel user = order.getWorker();
+			order.setStatus(OrderStatusEnum.CLOSED);
+			BigDecimal adminBanance = order.getPrice()
+					.multiply(new BigDecimal(10))
+					.divide(new BigDecimal(100), 2, BigDecimal.ROUND_UP);
+			UserModel admin = mana.getUserDao().findByUsername("admin");
+			BigDecimal adminFinalBalance = admin.getBalance().add(adminBanance);
+			admin.setBalance(adminFinalBalance);
+			BigDecimal finalBalance = user.getBalance().add(
+					order.getPrice().add(adminBanance.negate()));
+			user.setBalance(finalBalance);
+			getMana().getUserDao().save(user);
+			getMana().getUserDao().save(admin);
+			getMana().getOrderDao().save(order);
+		}
+
+		return "redirect:/user/clientOrderList";
 	}
 
 	@RequestMapping(value = "/orderRemoveAction/{id}", method = RequestMethod.GET)

@@ -28,6 +28,7 @@
 									<th>${dic.TRANSLATION_LANGUAGE}</th>
 									<th>${dic.DOCUMENT_TYPE}</th>
 									<th>${dic.WORD_NUMBER}</th>
+									<th>${dic.PRICE}</th>
 									<th>${dic.DOCUMENT}</th>
 									<th>${dic.CONFIRM}</th>
 								</tr>
@@ -43,18 +44,25 @@
 									<td>${o.translationLanguage}</td>
 									<td>${o.documentType}</td>
 									<td>${o.words}</td>
+									<td>${o.price}</td>
 									<td><a
 										href="<c:url value="${o.document.path}"/>"
 										class="btn btn-default">${dic.FILE}</a></td>
 										<c:if test="${o.status == 'FINISHED'}">
 									<td><a
-										href="<c:url value="/user/translateAction/${o.id}"/>"
+										href="<c:url value="/user/orderConfirmAction/${o.id}"/>"
 										class="btn btn-default">${dic.CONFIRM}</a></td>
 										</c:if>
 										<c:if test="${o.status == 'OPEN'}">
 									<td><a
 										href="<c:url value="/user/orderRemoveAction/${o.id}"/>"
 										class="btn btn-default">${dic.DELETE}</a></td>
+										</c:if>
+										<c:if test="${o.status == 'CLOSED'}">
+										<td></td>
+										</c:if>
+										<c:if test="${o.status == 'IN_PROGRESS'}">
+										<td></td>
 										</c:if>
 								</tr>
 							</c:forEach>

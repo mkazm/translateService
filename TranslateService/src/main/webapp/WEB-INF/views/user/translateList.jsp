@@ -58,10 +58,15 @@
 									<c:if test="${not empty o.translation.path}">
 										<td><a href="<c:url value="${o.translation.path}"/>"
 											class="btn btn-default">${dic.FILE}</a></td>
-											<td><a
+									</c:if>
+									<c:if test="${o.status == 'FINISHED'}">	
+									<td><a
 										href="<c:url value="/user/orderTranslateRemoveAction/${o.id}"/>"
 										class="btn btn-default">${dic.DELETE}</a></td>
-									</c:if>									
+									</c:if>		
+									<c:if test="${o.status == 'CLOSED'}">
+										<td></td>
+									</c:if>						
 								</tr>
 							</c:forEach>
 							</tbody>
