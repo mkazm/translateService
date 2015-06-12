@@ -74,7 +74,7 @@ public class UserController {
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			getUserPageMana().setUserPageModel(model, auth);
+			getUserPageMana().setAddOrderPage(model);
 		}
 		return "user/addOrder";
 	}

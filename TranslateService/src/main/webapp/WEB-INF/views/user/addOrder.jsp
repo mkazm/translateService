@@ -18,6 +18,29 @@
 						<h3 class="panel-title">${dic.ADD_ORDER}</h3>
 					</div>
 					<div class="panel-body">
+					<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>#</th>									
+									<th>${dic.DOCUMENT_LANGUAGE}</th>
+									<th>${dic.TRANSLATION_LANGUAGE}</th>
+									<th>${dic.DOCUMENT_TYPE}</th>
+									<th>${dic.PRICE}</th>									
+								</tr>
+							</thead>
+							<c:set var="count" value="0" scope="page" />
+							<c:forEach var="p" items="${priceList}">
+								<c:set var="count" value="${count + 1}" scope="page" />
+								<tr>
+									<td>${count}</td>
+									<td>${p.documentLanguage}</td>
+									<td>${p.translationLanguage}</td>
+									<td>${p.documentType}</td>
+									<td>${p.price}</td>									
+								</tr>
+							</c:forEach>
+							</tbody>
+						</table>
 						<form modelAttribute="order" class="form-horizontal" method="post"
 							data-toggle="validator" id="add-order-form" enctype="multipart/form-data"
 							action="<c:url value="/user/orderAction"/>">

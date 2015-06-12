@@ -26,6 +26,7 @@
 									<th>${dic.TRANSLATION_LANGUAGE}</th>
 									<th>${dic.DOCUMENT_TYPE}</th>
 									<th>${dic.PRICE}</th>
+									<th>${dic.DELETE}</th>
 								</tr>
 							</thead>
 							<c:set var="count" value="0" scope="page" />

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 
 import com.kazm.translate.model.BalanceHistoryModel;
 import com.kazm.translate.model.OrderModel;
+import com.kazm.translate.model.PriceModel;
 import com.kazm.translate.model.UserModel;
 
 @Service("userPageMana")
@@ -49,21 +50,30 @@ public class UserPageManager {
 		return model;
 	}
 
+	public Model setAddOrderPage(Model model) {
+		List<PriceModel> priceList = getMana().getPriceDao().findAll();
+		model.addAttribute("priceList", priceList);
+		return model;
+	}
+
 	public Model setBalancePage(Model model, Long userId) {
-		List<BalanceHistoryModel> balanceList = getMana().getBalanceHistoryDao().getUserBalanceHistory(userId);
+		List<BalanceHistoryModel> balanceList = getMana()
+				.getBalanceHistoryDao().getUserBalanceHistory(userId);
 		model.addAttribute("balanceList", balanceList);
 		return model;
 	}
 
 	public Model setClientOrderListPage(Model model, Long clientId) {
-		List<OrderModel> orderList = getMana().getOrderDao().getClientOrder(clientId);
+		List<OrderModel> orderList = getMana().getOrderDao().getClientOrder(
+				clientId);
 		orderList = changeDocumentPath(orderList);
 		model.addAttribute("orderList", orderList);
 		return model;
 	}
 
 	public Model setTranslatingListPage(Model model, Long translatorId) {
-		List<OrderModel> orderList = getMana().getOrderDao().getTranslatorOrder(translatorId);
+		List<OrderModel> orderList = getMana().getOrderDao()
+				.getTranslatorOrder(translatorId);
 		orderList = changeDocumentPath(orderList);
 		model.addAttribute("orderList", orderList);
 		return model;
