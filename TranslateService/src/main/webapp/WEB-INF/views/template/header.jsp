@@ -41,11 +41,12 @@
 						<li><a href="<c:url value="/user/orderList"/>">${dic.ORDER_LIST}</a></li>
 						<li><a href="<c:url value="/user/translatingList"/>">${dic.TRANSLATING}</a></li>
 					</sec:authorize>
+					<li><a href="<c:url value="/user/balance"/>">${dic.BALANCE_LIST}</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAnonymous()">
 					<li><a href="<c:url value="/login"/>">${dic.LOGIN}</a></li>
 					<li><a href="<c:url value="/register"/>">${dic.REGISTER}</a></li>
-				</sec:authorize>
+				</sec:authorize>				
 				<li><a href="#about">About</a></li>
 				<li><a href="#contact">Contact</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"

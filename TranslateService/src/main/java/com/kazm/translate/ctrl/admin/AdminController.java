@@ -2,6 +2,7 @@ package com.kazm.translate.ctrl.admin;
 
 import java.math.BigDecimal;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kazm.translate.manager.AdminManager;
 import com.kazm.translate.manager.DaoManager;
+import com.kazm.translate.model.BalanceHistoryModel;
 import com.kazm.translate.model.PriceModel;
 import com.kazm.translate.model.UserModel;
 import com.kazm.translate.tools.Dictionary;
@@ -69,9 +71,8 @@ public class AdminController {
 			model.addAttribute("error", Dictionary.EQUAL_LANGUAGE_WARNING);
 			return "admin/price";
 		}
-		PriceModel tempPrice = getMana().getPriceDao().getPrice(
-				price.getDocumentLanguage(), price.getTranslationLanguage(),
-				price.getDocumentType());
+		PriceModel tempPrice = getMana().getPriceDao().getPrice(price.getDocumentLanguage(),
+				price.getTranslationLanguage(), price.getDocumentType());
 		if (tempPrice != null) {
 			model = getAdminMana().setPriceEditPage(model);
 			model.addAttribute("error", Dictionary.PRICE_ADDED_WARNING);
@@ -95,11 +96,16 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/balanceAction")
-	public String balanceAction(Model model, @RequestParam Long id,
-			@RequestParam BigDecimal balance) {
+	public String balanceAction(Model model, @RequestParam Long id, @RequestParam BigDecimal balance) {
 		UserModel user = getMana().getUserDao().findById(id);
 		user.setBalance(balance);
+		BalanceHistoryModel balanceHist = new BalanceHistoryModel();
+		balanceHist.setUser(user);
+		balanceHist.setDateStamp(new DateTime());
+		balanceHist.setBalance(user.getBalance());
+		balanceHist.setOperation(balance);
 		getMana().getUserDao().update(user);
+		getMana().getBalanceHistoryDao().save(balanceHist);
 		return "redirect:/admin/balance";
 	}
 

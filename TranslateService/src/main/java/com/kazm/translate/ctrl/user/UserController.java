@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kazm.translate.dict.OrderStatusEnum;
 import com.kazm.translate.manager.DaoManager;
 import com.kazm.translate.manager.UserPageManager;
+import com.kazm.translate.model.BalanceHistoryModel;
 import com.kazm.translate.model.DocumentModel;
 import com.kazm.translate.model.OrderModel;
 import com.kazm.translate.model.PriceModel;
@@ -36,8 +38,7 @@ import com.kazm.translate.tools.Tools;
 @RequestMapping("/user")
 public class UserController {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(UserController.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
 	DaoManager mana;
@@ -59,8 +60,7 @@ public class UserController {
 
 	@RequestMapping(value = "")
 	public String main(Model model) {
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			getUserPageMana().setUserPageModel(model, auth);
 		}
@@ -69,8 +69,7 @@ public class UserController {
 
 	@RequestMapping(value = "/order")
 	public String order(Model model) {
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			getUserPageMana().setUserPageModel(model, auth);
 		}
@@ -85,8 +84,7 @@ public class UserController {
 
 	@RequestMapping(value = "/clientOrderList")
 	public String clientOrderList(Model model) {
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			String username = auth.getName();
 			UserModel user = getMana().getUserDao().findByUsername(username);
@@ -97,8 +95,7 @@ public class UserController {
 
 	@RequestMapping(value = "/translatingList")
 	public String translatingList(Model model) {
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			String username = auth.getName();
 			UserModel user = mana.getUserDao().findByUsername(username);
@@ -109,8 +106,7 @@ public class UserController {
 
 	@RequestMapping(value = "/translateAction/{id}")
 	public String translateAction(Model model, @PathVariable Long id) {
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			String username = auth.getName();
 			UserModel user = mana.getUserDao().findByUsername(username);
@@ -125,8 +121,7 @@ public class UserController {
 
 	@RequestMapping(value = "/cancelTranslateAction/{id}")
 	public String cancelTranslateAction(Model model, @PathVariable Long id) {
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			String username = auth.getName();
 			UserModel user = mana.getUserDao().findByUsername(username);
@@ -161,14 +156,22 @@ public class UserController {
 		return "user/translateList";
 	}
 
-	@RequestMapping(value = "/orderAction", method = RequestMethod.POST)
-	public String orderAction(Model model, OrderModel order,
-			@RequestParam("file") MultipartFile file) {
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
+	@RequestMapping(value = "/balance", method = RequestMethod.GET)
+	public String balance(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			if (order.getDocumentLanguage().equals(
-					order.getTranslationLanguage())) {
+			String username = auth.getName();
+			UserModel user = mana.getUserDao().findByUsername(username);
+			getUserPageMana().setBalancePage(model, user.getId());
+		}
+		return "user/balance";
+	}
+
+	@RequestMapping(value = "/orderAction", method = RequestMethod.POST)
+	public String orderAction(Model model, OrderModel order, @RequestParam("file") MultipartFile file) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			if (order.getDocumentLanguage().equals(order.getTranslationLanguage())) {
 				model.addAttribute("error", Dictionary.EQUAL_LANGUAGE_WARNING);
 				return "user/addOrder";
 			}
@@ -177,8 +180,7 @@ public class UserController {
 				model.addAttribute("error", Dictionary.TXT_FILE_WARNING);
 				return "user/addOrder";
 			}
-			PriceModel price = getMana().getPriceDao().getPrice(
-					order.getDocumentLanguage(),
+			PriceModel price = getMana().getPriceDao().getPrice(order.getDocumentLanguage(),
 					order.getTranslationLanguage(), order.getDocumentType());
 			if (price == null) {
 				model.addAttribute("info", Dictionary.PRICE_NOT_ADDED_WARNING);
@@ -194,34 +196,28 @@ public class UserController {
 				BigDecimal finalPrice = price.getPrice().multiply(wordNumber);
 				document = getMana().getDocumentDao().save(document);
 				if (finalPrice.compareTo(client.getBalance()) > 0) {
-					model.addAttribute("info", Dictionary.PRICE_TOO_HIGH
-							+ " Cena: " + finalPrice + "z³" + " Saldo: "
+					model.addAttribute("info", Dictionary.PRICE_TOO_HIGH + " Cena: " + finalPrice + "z³" + " Saldo: "
 							+ client.getBalance() + "z³");
 					return "user/addOrder";
 				}
 				String rootPath = System.getProperty("catalina.home");
-				File dir = new File(rootPath + File.separator + "media"
-						+ File.separator + "documents");
+				File dir = new File(rootPath + File.separator + "media" + File.separator + "documents");
 				if (!dir.exists())
 					dir.mkdirs();
-				String fileName = document.getId() + "_"
-						+ file.getOriginalFilename();
-				String filePath = dir.getAbsolutePath() + File.separator
-						+ fileName;
+				String fileName = document.getId() + "_" + file.getOriginalFilename();
+				String filePath = dir.getAbsolutePath() + File.separator + fileName;
 				File serverFile = new File(filePath);
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(serverFile));
+				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 				stream.write(bytes);
 				stream.close();
 
-				logger.info("Server File Location="
-						+ serverFile.getAbsolutePath());
+				logger.info("Server File Location=" + serverFile.getAbsolutePath());
 
 				document.setName(fileName);
 				document.setPath(filePath.replace(rootPath, ""));
 
 				document = getMana().getDocumentDao().update(document);
-				client.setBalance(client.getBalance().add(finalPrice.negate()));
+
 				getMana().getUserDao().update(client);
 				order.setClient(client);
 				order.setStatus(OrderStatusEnum.OPEN);
@@ -230,9 +226,16 @@ public class UserController {
 				order.setPrice(finalPrice);
 
 				order = getMana().getOrderDao().save(order);
-				BigDecimal newBalance = client.getBalance().add(
-						finalPrice.negate());
+				BigDecimal newBalance = client.getBalance().add(finalPrice.negate());
 				client.setBalance(newBalance);
+
+				BalanceHistoryModel balanceHist = new BalanceHistoryModel();
+				balanceHist.setUser(client);
+				balanceHist.setDateStamp(new DateTime());
+				balanceHist.setBalance(newBalance);
+				balanceHist.setOperation(finalPrice.negate());
+				getMana().getBalanceHistoryDao().save(balanceHist);
+				getMana().getUserDao().save(client);
 
 				getUserPageMana().setUserPageModel(model, auth);
 
@@ -245,10 +248,8 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/orderTranslateAction", method = RequestMethod.POST)
-	public String orderTranslateAction(Model model, @RequestParam Long id,
-			@RequestParam("file") MultipartFile file) {
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
+	public String orderTranslateAction(Model model, @RequestParam Long id, @RequestParam("file") MultipartFile file) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			String username = auth.getName();
 			UserModel user = getMana().getUserDao().findByUsername(username);
@@ -267,22 +268,17 @@ public class UserController {
 				document = getMana().getDocumentDao().save(document);
 
 				String rootPath = System.getProperty("catalina.home");
-				File dir = new File(rootPath + File.separator + "media"
-						+ File.separator + "documents");
+				File dir = new File(rootPath + File.separator + "media" + File.separator + "documents");
 				if (!dir.exists())
 					dir.mkdirs();
-				String fileName = document.getId() + "_"
-						+ file.getOriginalFilename();
-				String filePath = dir.getAbsolutePath() + File.separator
-						+ fileName;
+				String fileName = document.getId() + "_" + file.getOriginalFilename();
+				String filePath = dir.getAbsolutePath() + File.separator + fileName;
 				File serverFile = new File(filePath);
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(serverFile));
+				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 				stream.write(bytes);
 				stream.close();
 
-				logger.info("Server File Location="
-						+ serverFile.getAbsolutePath());
+				logger.info("Server File Location=" + serverFile.getAbsolutePath());
 
 				document.setName(fileName);
 				document.setPath(filePath.replace(rootPath, ""));
@@ -302,8 +298,7 @@ public class UserController {
 
 	@RequestMapping(value = "/orderTranslateRemoveAction/{id}", method = RequestMethod.GET)
 	public String orderTranslateRemoveAction(Model model, @PathVariable Long id) {
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			String rootPath = System.getProperty("catalina.home");
 			OrderModel orderModel = getMana().getOrderDao().findById(id);
@@ -330,8 +325,7 @@ public class UserController {
 
 	@RequestMapping(value = "/orderRemoveAction/{id}", method = RequestMethod.GET)
 	public String orderRemoveAction(Model model, @PathVariable Long id) {
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			String rootPath = System.getProperty("catalina.home");
 			OrderModel orderModel = getMana().getOrderDao().findById(id);
@@ -350,14 +344,22 @@ public class UserController {
 				}
 
 				String username = auth.getName();
-				UserModel client = getMana().getUserDao().findByUsername(
-						username);
+				UserModel client = getMana().getUserDao().findByUsername(username);
 				BigDecimal finalPrice = orderModel.getPrice();
 				orderModel.setTranslation(null);
 				getMana().getOrderDao().delete(orderModel);
 				getMana().getDocumentDao().delete(documentModel);
 				BigDecimal newBalance = client.getBalance().add(finalPrice);
+
+				BalanceHistoryModel balanceHist = new BalanceHistoryModel();
+				balanceHist.setUser(client);
+				balanceHist.setDateStamp(new DateTime());
+				balanceHist.setBalance(newBalance);
+				balanceHist.setOperation(finalPrice);
+				getMana().getBalanceHistoryDao().save(balanceHist);
+
 				client.setBalance(newBalance);
+				getMana().getUserDao().update(client);
 			}
 		}
 

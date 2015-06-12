@@ -90,6 +90,9 @@ public class Dictionary {
 	final String DOCUMENT = "Dokument";
 	final String TRANSLATION = "T³umaczenie";
 	final String FILE = "Plik";
+	final String BALANCE_LIST = "Saldo";
+	final String DATE = "Data";
+	final String OPERATION = "Operacja";
 
 	// ///////////////////////////////TRANSLATE MESSAGE///////////
 	public static final String EQUAL_LANGUAGE_WARNING = "Dokumenty nie mog¹ byæ w tych samych jêzykach";
@@ -104,6 +107,18 @@ public class Dictionary {
 	final String MSG_COMM_DEL = "Komentarz usuniêty";
 	final String MSG_MIN_INPUT = "Minimalna d³ugoœæ znaków";
 	final String MSG_EMAIN_NOT_CONFIRMED = "Logowanie wymaga aktywacji konta.";
+
+	public String getDATE() {
+		return DATE;
+	}
+
+	public String getOPERATION() {
+		return OPERATION;
+	}
+
+	public String getBALANCE_LIST() {
+		return BALANCE_LIST;
+	}
 
 	public String getDOCUMENT() {
 		return DOCUMENT;
