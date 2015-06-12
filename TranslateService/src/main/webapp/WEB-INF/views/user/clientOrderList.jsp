@@ -46,7 +46,7 @@
 									<td>${o.words}</td>
 									<td>${o.price}</td>
 									<td><a
-										href="<c:url value="${o.document.path}"/>"
+										href="<c:url value="${o.translation.path}"/>"
 										class="btn btn-default">${dic.FILE}</a></td>
 										<c:if test="${o.status == 'FINISHED'}">
 									<td><a

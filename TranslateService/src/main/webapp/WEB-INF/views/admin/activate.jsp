@@ -24,7 +24,7 @@
 									<th>#</th>
 									<th>${dic.USERNAME}</th>
 									<th>${dic.ACCOUNT_TYPE}</th>
-									<th>${dic.REASON}</th>
+									<th>${dic.STATUS}</th>
 									<th>${dic.ACTIVATE}</th>
 								</tr>
 							</thead>

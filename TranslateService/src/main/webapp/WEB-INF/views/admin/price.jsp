@@ -13,6 +13,15 @@
 		<div class="container">
 
 			<div class="starter-template">
+			<c:if test="${empty SPRING_SECURITY_LAST_EXCEPTION.message}">
+				<c:if test="${not empty error}">
+					<div class="alert alert-danger" style="text-align: center;"
+						role="alert">${error}</div>
+				</c:if>
+				</c:if>
+						<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}">
+			<div class="alert alert-warning" style="text-align: center;" role="alert">${dic.MSG_EMAIN_NOT_CONFIRMED}</div>
+				</c:if>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">${dic.PRICE}</h3>

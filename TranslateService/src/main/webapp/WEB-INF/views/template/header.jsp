@@ -52,11 +52,11 @@
 		<!--/.nav-collapse -->
 	</div>
 </nav>
-<c:if test="${not empty info}">
+<%-- <c:if test="${not empty info}">
 					<div class="alert alert-info" style="text-align: center;"
 						role="alert">${info}</div>
 				</c:if>
 				<c:if test="${not empty error}">
 					<div class="alert alert-danger" style="text-align: center;"
 						role="alert">${error}</div>
-				</c:if>
+				</c:if> --%>

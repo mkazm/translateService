@@ -263,7 +263,7 @@ public class UserController {
 				e.printStackTrace();
 			}
 		}
-		return "user/addOrder";
+		return "redirect:/user/clientOrderList";
 	}
 
 	@RequestMapping(value = "/orderTranslateAction", method = RequestMethod.POST)
