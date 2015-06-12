@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.kazm.translate.model.BalanceHistoryModel;
 import com.kazm.translate.model.OrderModel;
 import com.kazm.translate.model.UserModel;
 
@@ -48,17 +49,21 @@ public class UserPageManager {
 		return model;
 	}
 
+	public Model setBalancePage(Model model, Long userId) {
+		List<BalanceHistoryModel> balanceList = getMana().getBalanceHistoryDao().getUserBalanceHistory(userId);
+		model.addAttribute("balanceList", balanceList);
+		return model;
+	}
+
 	public Model setClientOrderListPage(Model model, Long clientId) {
-		List<OrderModel> orderList = getMana().getOrderDao().getClientOrder(
-				clientId);
+		List<OrderModel> orderList = getMana().getOrderDao().getClientOrder(clientId);
 		orderList = changeDocumentPath(orderList);
 		model.addAttribute("orderList", orderList);
 		return model;
 	}
 
 	public Model setTranslatingListPage(Model model, Long translatorId) {
-		List<OrderModel> orderList = getMana().getOrderDao()
-				.getTranslatorOrder(translatorId);
+		List<OrderModel> orderList = getMana().getOrderDao().getTranslatorOrder(translatorId);
 		orderList = changeDocumentPath(orderList);
 		model.addAttribute("orderList", orderList);
 		return model;

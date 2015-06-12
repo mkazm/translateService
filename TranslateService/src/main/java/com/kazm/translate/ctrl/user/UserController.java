@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kazm.translate.dict.OrderStatusEnum;
 import com.kazm.translate.manager.DaoManager;
 import com.kazm.translate.manager.UserPageManager;
+import com.kazm.translate.model.BalanceHistoryModel;
 import com.kazm.translate.model.DocumentModel;
 import com.kazm.translate.model.OrderModel;
 import com.kazm.translate.model.PriceModel;
@@ -161,6 +163,18 @@ public class UserController {
 		return "user/translateList";
 	}
 
+	@RequestMapping(value = "/balance", method = RequestMethod.GET)
+	public String balance(Model model) {
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			String username = auth.getName();
+			UserModel user = mana.getUserDao().findByUsername(username);
+			getUserPageMana().setBalancePage(model, user.getId());
+		}
+		return "user/balance";
+	}
+
 	@RequestMapping(value = "/orderAction", method = RequestMethod.POST)
 	public String orderAction(Model model, OrderModel order,
 			@RequestParam("file") MultipartFile file) {
@@ -221,6 +235,7 @@ public class UserController {
 				document.setPath(filePath.replace(rootPath, ""));
 
 				document = getMana().getDocumentDao().update(document);
+
 				getMana().getUserDao().update(client);
 				order.setClient(client);
 				order.setStatus(OrderStatusEnum.OPEN);
@@ -232,6 +247,14 @@ public class UserController {
 				BigDecimal newBalance = client.getBalance().add(
 						finalPrice.negate());
 				client.setBalance(newBalance);
+
+				BalanceHistoryModel balanceHist = new BalanceHistoryModel();
+				balanceHist.setUser(client);
+				balanceHist.setDateStamp(new DateTime());
+				balanceHist.setBalance(newBalance);
+				balanceHist.setOperation(finalPrice.negate());
+				getMana().getBalanceHistoryDao().save(balanceHist);
+				getMana().getUserDao().save(client);
 
 				getUserPageMana().setUserPageModel(model, auth);
 
@@ -344,6 +367,22 @@ public class UserController {
 			BigDecimal finalBalance = user.getBalance().add(
 					order.getPrice().add(adminBanance.negate()));
 			user.setBalance(finalBalance);
+
+			BalanceHistoryModel balanceHist = new BalanceHistoryModel();
+			balanceHist.setUser(user);
+			balanceHist.setDateStamp(new DateTime());
+			balanceHist.setBalance(finalBalance);
+			balanceHist.setOperation(order.getPrice()
+					.add(adminBanance.negate()));
+			getMana().getBalanceHistoryDao().save(balanceHist);
+
+			BalanceHistoryModel adminBalanceHist = new BalanceHistoryModel();
+			adminBalanceHist.setUser(admin);
+			adminBalanceHist.setDateStamp(new DateTime());
+			adminBalanceHist.setBalance(adminFinalBalance);
+			adminBalanceHist.setOperation(adminBanance);
+			getMana().getBalanceHistoryDao().save(adminBalanceHist);
+
 			getMana().getUserDao().save(user);
 			getMana().getUserDao().save(admin);
 			getMana().getOrderDao().save(order);
@@ -381,7 +420,16 @@ public class UserController {
 				getMana().getOrderDao().delete(orderModel);
 				getMana().getDocumentDao().delete(documentModel);
 				BigDecimal newBalance = client.getBalance().add(finalPrice);
+
+				BalanceHistoryModel balanceHist = new BalanceHistoryModel();
+				balanceHist.setUser(client);
+				balanceHist.setDateStamp(new DateTime());
+				balanceHist.setBalance(newBalance);
+				balanceHist.setOperation(finalPrice);
+				getMana().getBalanceHistoryDao().save(balanceHist);
+
 				client.setBalance(newBalance);
+				getMana().getUserDao().update(client);
 			}
 		}
 

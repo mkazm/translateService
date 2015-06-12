@@ -41,6 +41,7 @@
 						<li><a href="<c:url value="/user/orderList"/>">${dic.ORDER_LIST}</a></li>
 						<li><a href="<c:url value="/user/translatingList"/>">${dic.TRANSLATING}</a></li>
 					</sec:authorize>
+					<li><a href="<c:url value="/user/balance"/>">${dic.BALANCE_LIST}</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAnonymous()">
 					<li><a href="<c:url value="/login"/>">${dic.LOGIN}</a></li>

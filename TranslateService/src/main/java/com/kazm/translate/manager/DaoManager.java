@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import com.kazm.translate.dao.BalanceHistoryDao;
 import com.kazm.translate.dao.DocumentDao;
 import com.kazm.translate.dao.OrderDao;
 import com.kazm.translate.dao.PriceDao;
@@ -28,6 +29,17 @@ public class DaoManager {
 
 	@Autowired
 	private PriceDao priceDao;
+
+	@Autowired
+	private BalanceHistoryDao balanceHistoryDao;
+
+	public BalanceHistoryDao getBalanceHistoryDao() {
+		return balanceHistoryDao;
+	}
+
+	public void setBalanceHistoryDao(BalanceHistoryDao balanceHistoryDao) {
+		this.balanceHistoryDao = balanceHistoryDao;
+	}
 
 	public PriceDao getPriceDao() {
 		return priceDao;

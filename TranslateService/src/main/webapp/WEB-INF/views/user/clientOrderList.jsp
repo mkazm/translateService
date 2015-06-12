@@ -30,7 +30,7 @@
 									<th>${dic.WORD_NUMBER}</th>
 									<th>${dic.PRICE}</th>
 									<th>${dic.DOCUMENT}</th>
-									<th>${dic.CONFIRM}</th>
+									<th>${dic.CONFIRM_DELETE}</th>
 								</tr>
 							</thead>
 							<c:set var="count" value="0" scope="page" />

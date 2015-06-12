@@ -12,7 +12,7 @@ public class Dictionary {
 	public static final String REGISTER_ERROR_LOGIN_USED = "Login zajêty.";
 	public static final String REGISTER_ERROR_EMAIL_USED = "Adres email zajêty.";
 	public static final String EDIR_PASS_ERROR = "B³êdne obecne has³o";
-	public static final String INFO_NEED_TO_CONFIRM_EMAIL = "Konto nale¿y aktywowaæ za poœrednictwem nades³anego maila.";
+	public static final String INFO_NEED_TO_CONFIRM_EMAIL = "Konto w oczekiwaniu na potwiedzenie administratora.";
 	public static final String EMAIL_CONFIRM_MSG = "Adres email potwierdzony.";
 	public static final String EMAIL_NOT_CONFIRM_MSG = "B³¹d podczas potwierdzenia adresu email.";
 	public static final String NO_NEW_REF_MSG = "Brak nowych powiadomieñ!";
@@ -86,10 +86,14 @@ public class Dictionary {
 	final String DOCUMENT_TYPE = "Typ dokumentu";
 	final String BALANCE = "Saldo";
 	final String WORD_NUMBER = "Iloœæ s³ów";
-	final String CONFIRM = "PotwierdŸ/Usuñ";
+	final String CONFIRM = "PotwierdŸ";
+	final String CONFIRM_DELETE = "PotwierdŸ/Usuñ";
 	final String DOCUMENT = "Dokument";
 	final String TRANSLATION = "T³umaczenie";
 	final String FILE = "Plik";
+	final String BALANCE_LIST = "Saldo";
+	final String DATE = "Data";
+	final String OPERATION = "Operacja";
 
 	// ///////////////////////////////TRANSLATE MESSAGE///////////
 	public static final String EQUAL_LANGUAGE_WARNING = "Dokumenty nie mog¹ byæ w tych samych jêzykach";
@@ -104,6 +108,22 @@ public class Dictionary {
 	final String MSG_COMM_DEL = "Komentarz usuniêty";
 	final String MSG_MIN_INPUT = "Minimalna d³ugoœæ znaków";
 	final String MSG_EMAIN_NOT_CONFIRMED = "Logowanie wymaga aktywacji konta.";
+
+	public String getCONFIRM_DELETE() {
+		return CONFIRM_DELETE;
+	}
+
+	public String getDATE() {
+		return DATE;
+	}
+
+	public String getOPERATION() {
+		return OPERATION;
+	}
+
+	public String getBALANCE_LIST() {
+		return BALANCE_LIST;
+	}
 
 	public String getDOCUMENT() {
 		return DOCUMENT;
